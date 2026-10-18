@@ -72,6 +72,18 @@ export class AuthController {
         { expiresIn: config.jwt.accessExpiresIn as import('jsonwebtoken').SignOptions['expiresIn'] }
       );
 
+      const refreshToken = jwt.sign(
+        { id: user._id, role: user.role },
+        config.jwt.refreshSecret,
+        { expiresIn: config.jwt.refreshExpiresIn as import('jsonwebtoken').SignOptions['expiresIn'] }
+      );
+
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+      });
+
       res.json({
         token,
         user: {
