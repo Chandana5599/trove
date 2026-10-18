@@ -19,4 +19,4 @@ router.get('/health', (req, res) => {
 router.use('/auth', authRoutes);
 <% } %>
 
-export { router as routes }; 
+export default router;
